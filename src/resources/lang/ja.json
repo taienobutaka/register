@@ -1,0 +1,13 @@
+{
+    "The :attribute field is required.": ":attributeは必須項目です。",
+    "The :attribute field must be a string.": ":attributeは文字列で入力してください。",
+    "The :attribute field must not be greater than :max characters.": ":attributeは:max文字以下入力してください。",
+    "The :attribute field must be a valid email address.": ":attributeは正しいメールアドレス形式で入力してください。",
+    "The :attribute has already been taken.": ":attributeは既に使用されています。",
+    "The :attribute field must be at least :min characters.": ":attributeは:min文字以上入力してください。",
+    "The :attribute field confirmation does not match.": ":attributeが一致しません。",
+    "name": "お名前",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "password_confirmation": "パスワード（確認）"
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>会員登録テスト</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      button {
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .error {
+        color: red;
+        margin-top: 5px;
+      }
+      .success {
+        color: green;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>会員登録テスト</h1>
+
+    <div id="result"></div>
+
+    <form id="registerForm">
+      <div class="form-group">
+        <label for="name">お名前:</label>
+        <input type="text" id="name" name="name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">メールアドレス:</label>
+        <input type="email" id="email" name="email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">パスワード:</label>
+        <input type="password" id="password" name="password" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password_confirmation">パスワード（確認）:</label>
+        <input
+          type="password"
+          id="password_confirmation"
+          name="password_confirmation"
+          required
+        />
+      </div>
+
+      <button type="submit">登録</button>
+    </form>
+
+    <script>
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const formData = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value,
+            password_confirmation: document.getElementById(
+              "password_confirmation"
+            ).value,
+          };
+
+          try {
+            // まずCSRFトークンを取得
+            const csrfResponse = await fetch("http://localhost/register");
+            const csrfHtml = await csrfResponse.text();
+            const csrfMatch = csrfHtml.match(/csrf-token" content="([^"]*)"/);
+            const csrfToken = csrfMatch ? csrfMatch[1] : "";
+
+            // セッションクッキーを取得
+            const cookies = document.cookie;
+
+            const response = await fetch("http://localhost/register", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": csrfToken,
+              },
+              credentials: "include",
+              body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              if (data.errors) {
+                let errorMessage = "バリデーションエラー:\n";
+                Object.keys(data.errors).forEach((key) => {
+                  errorMessage += `${key}: ${data.errors[key]}\n`;
+                });
+                document.getElementById(
+                  "result"
+                ).innerHTML = `<div class="error">${errorMessage}</div>`;
+              } else {
+                document.getElementById(
+                  "result"
+                ).innerHTML = `<div class="error">${data.message}</div>`;
+              }
+            } else {
+              document.getElementById(
+                "result"
+              ).innerHTML = `<div class="success">${data.message}</div>`;
+            }
+          } catch (error) {
+            document.getElementById(
+              "result"
+            ).innerHTML = `<div class="error">ネットワークエラー: ${error.message}</div>`;
+          }
+        });
+    </script>
+  </body>
+</html>
