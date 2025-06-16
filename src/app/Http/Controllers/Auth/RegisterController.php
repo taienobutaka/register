@@ -24,23 +24,23 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request)
     {
         // バリデーション済みデータを取得（バリデーションエラーの場合は自動的に422エラーが返される）
-        $validated = $request->validated();
+            $validated = $request->validated();
 
-        // ユーザー作成
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
+            // ユーザー作成
+            $user = User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+            ]);
 
-        // 成功レスポンス
-        return response()->json([
-            'message' => '会員登録が完了しました。',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-            ]
-        ], 201);
+            // 成功レスポンス
+            return response()->json([
+                'message' => '会員登録が完了しました。',
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                ]
+            ], 201);
     }
 }
