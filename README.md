@@ -37,7 +37,7 @@ Laravel + React + Docker を使用した会員登録システムです。
 ### 1. リポジトリのクローン
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:taienobutaka/register.git
 cd register
 ```
 
