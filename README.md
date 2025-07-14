@@ -15,6 +15,7 @@ Laravel + React + Docker を使用した会員登録システムです。
 
 ### フロントエンド
 
+- **JavaScript (ES2023)** - メイン言語
 - **React 19.1.0** - JavaScript ライブラリ
 - **Tailwind CSS 4.0** - CSS フレームワーク
 - **Vite 6.2.4** - ビルドツール
