@@ -1,0 +1,11 @@
+{
+    "files.exclude": {
+        "**/.env": false
+    },
+    "search.exclude": {
+        "**/.env": false
+    },
+    "files.watcherExclude": {
+        "**/.env": false
+    }
+}
